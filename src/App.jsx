@@ -5,6 +5,8 @@ import Signup from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import Link from "./pages/Link";
 import RedirectLink from "./pages/RedirectLink";
+import UserProvider from "./context/userContext";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -20,11 +22,19 @@ const router = createBrowserRouter([
       },
       {
         path: "dashboard",
-        element: <Dashboard />,
+        element: (
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "link/:id",
-        element: <Link />,
+        element: (
+          <ProtectedRoute>
+            <Link />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "redirect-link",
@@ -34,7 +44,11 @@ const router = createBrowserRouter([
   },
 ]);
 const App = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <UserProvider>
+      <RouterProvider router={router} />
+    </UserProvider>
+  );
 };
 
 export default App;

@@ -10,8 +10,12 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { BeatLoader } from "react-spinners";
 import Error from "../Shared/Error";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { object, string } from "yup";
+import useFetch from "@/hooks/useFetch";
+import { login } from "@/db/apiAuth";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { UserState } from "@/context/userContext";
 
 const Login = () => {
   const [errors, setErrors] = useState([]);
@@ -19,6 +23,12 @@ const Login = () => {
     email: "",
     password: "",
   });
+
+  const { data, isLoading, error, fn: loginFn } = useFetch(login, formData);
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const longLink = searchParams.get("createNew");
+  const { fetchUser } = UserState();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -37,7 +47,7 @@ const Login = () => {
 
       await schema.validate(formData, { abortEarly: false });
 
-      // Api call
+      await loginFn();
     } catch (error) {
       const newErrors = {};
 
@@ -49,13 +59,21 @@ const Login = () => {
     }
   };
 
-  const isLoading = true;
+  useEffect(() => {
+    if (data && !error) {
+      navigate(`/dashboard?${longLink ? `createNew=${longLink}` : ""}`);
+      fetchUser();
+    }
+  }, [data, error]);
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Card Title</CardTitle>
-        <CardDescription>Card Description</CardDescription>
-        <Error message="Something went wrong" />
+        <CardTitle>Login</CardTitle>
+        <CardDescription>
+          To your account if you already have one
+        </CardDescription>
+        {error && <Error message={error} />}
       </CardHeader>
       <CardContent className="space-y-2">
         <div>
