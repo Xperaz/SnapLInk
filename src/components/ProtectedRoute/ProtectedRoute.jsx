@@ -15,7 +15,7 @@ const ProtectedRoute = ({ children }) => {
   }, [isAuthenticated, isLoading]);
 
   if (isLoading) return <BarLoader width={"100%"} color="#36d7b7" />;
-  if (isAuthenticated) children;
+  if (isAuthenticated) return children;
 };
 
 export default ProtectedRoute;
