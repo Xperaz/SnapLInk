@@ -30,18 +30,18 @@ const LinkCard = ({ url, fetchUrls }) => {
       <img
         src={url?.qr}
         alt="qr code image"
-        className="h-32 object-contain ring ring-blue-500"
+        className="h-32 w-32 ring ring-blue-500 self-center"
       />
 
-      <Link to={`/link/${url?.id}`} className="flex flex-col flex-1">
-        <span className="text-3xl font-extrabold hover:underline cursor-pointer">
+      <Link to={`/link/${url?.id}`} className="flex flex-col flex-1 truncate">
+        <span className="text-3xl font-extrabold hover:underline cursor-pointer truncate ">
           {url?.title}
         </span>
-        <span className="text-2xl text-blue-400 font-bold hover:underline cursor-pointer">
-          https://snaplink.in/
+        <span className="text-2xl text-blue-400 font-bold hover:underline cursor-pointer truncate">
+          {import.meta.env.VITE_SHORTER_URL_BASE}
           {url?.custom_url ? url?.custom_url : url?.short_url}
         </span>
-        <span className="flex items-center gap-1 hover:underline cursor-pointer">
+        <span className="flex items-center gap-1 hover:underline cursor-pointer truncate">
           {url?.original_url}
         </span>
         <span className="flex items-end font-extrabold text-sm flex-1">
@@ -53,9 +53,7 @@ const LinkCard = ({ url, fetchUrls }) => {
         <Button
           variant="ghost"
           onClick={() => {
-            navigator.clipboard.writeText(
-              `https://snaplink.in/${url?.short_url}`
-            );
+            navigator.clipboard.writeText(`{}${url?.short_url}`);
           }}
         >
           <Copy />

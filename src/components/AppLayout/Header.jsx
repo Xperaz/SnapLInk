@@ -26,7 +26,7 @@ const Header = () => {
     <>
       <nav className="flex justify-between items-center py-4">
         <Link to="/">
-          <img src={Logo} alt="SnapLink logo" className="h-16" />
+          <img src={Logo} alt="SnapLink logo" className="h-28" />
         </Link>
 
         <div>

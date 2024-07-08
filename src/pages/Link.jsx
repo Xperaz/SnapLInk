@@ -100,7 +100,9 @@ const Link = () => {
               variant="ghost"
               onClick={() => {
                 navigator.clipboard.writeText(
-                  `https://snaplink.in/${urlData?.short_url}`
+                  `${import.meta.import.meta.env.VITE_SHORTER_URL_BASE}/${
+                    urlData?.short_url
+                  }`
                 );
               }}
             >

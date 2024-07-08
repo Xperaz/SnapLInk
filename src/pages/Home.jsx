@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import banner from "@/assets/banner.jpeg";
+import banner from "@/assets/banner.png";
 import {
   Accordion,
   AccordionContent,
@@ -38,34 +38,40 @@ const Home = () => {
           Shorten!
         </Button>
       </form>
-      <img src={banner} alt="SnapLink Banner" className="w-full my-11 mx-11" />
+      <img src={banner} alt="SnapLink Banner" className="w-5/6 my-11 mx-11" />
 
       <Accordion type="single" collapsible className="w-full md:px-11">
         <AccordionItem value="item-1">
-          <AccordionTrigger>Is it accessible?</AccordionTrigger>
+          <AccordionTrigger>What is SnapLink ?</AccordionTrigger>
           <AccordionContent>
-            Yes. It adheres to the WAI-ARIA design pattern.
+            A URL shortener is a tool that takes a long URL and converts it into
+            a shorter, more manageable link that redirects to the original URL.
           </AccordionContent>
         </AccordionItem>
 
         <AccordionItem value="item-2">
-          <AccordionTrigger>Is it accessible?</AccordionTrigger>
+          <AccordionTrigger>How does SnapLink work?</AccordionTrigger>
           <AccordionContent>
-            Yes. It adheres to the WAI-ARIA design pattern.
+            When you enter a long URL into a URL shortener, it generates a
+            unique short URL. When someone clicks on the short URL, they are
+            redirected to the original long URL.
           </AccordionContent>
         </AccordionItem>
 
         <AccordionItem value="item-3">
-          <AccordionTrigger>Is it accessible?</AccordionTrigger>
+          <AccordionTrigger>Can I customize the short URL?</AccordionTrigger>
           <AccordionContent>
-            Yes. It adheres to the WAI-ARIA design pattern.
+            Some URL shorteners allow you to customize the short URL to make it
+            more meaningful and easier to remember.
           </AccordionContent>
         </AccordionItem>
 
         <AccordionItem value="item-4">
-          <AccordionTrigger>Is it accessible?</AccordionTrigger>
+          <AccordionTrigger>Why should I use SnapLink?</AccordionTrigger>
           <AccordionContent>
-            Yes. It adheres to the WAI-ARIA design pattern.
+            Short URLs are easier to share, especially on social media platforms
+            with character limits. They also look cleaner and can help with
+            tracking click-through rates and other analytics.
           </AccordionContent>
         </AccordionItem>
       </Accordion>
