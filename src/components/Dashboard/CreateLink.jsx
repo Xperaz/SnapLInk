@@ -67,16 +67,17 @@ const CreateLink = () => {
 
       await createUrlFn(blob);
     } catch (errs) {
-      console.log(errs);
       const newErrors = {};
 
       errs?.inner?.forEach((err) => {
+        console.log(err.message);
         newErrors[err.path] = err.message;
       });
-
       setErrors(newErrors);
     }
   };
+
+  console.log(errors);
 
   return (
     <Dialog
@@ -108,7 +109,7 @@ const CreateLink = () => {
           value={formValues.title}
           onChange={handleChange}
         />
-        {errors.title && <Error message={errors.message} />}
+        {errors.title && <Error message={errors.title} />}
 
         <Input
           id="longUrl"

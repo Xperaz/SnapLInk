@@ -53,6 +53,37 @@ export const createUrl = async (
   return data;
 };
 
+export const getLongUrl = async (id) => {
+  const { data, error } = await supabase
+    .from("urls")
+    .select("id, original_url")
+    .or(`short_url.eq.${id}, custom_url.eq.${id}`)
+    .single();
+
+  if (error) {
+    console.error(error.message);
+    throw new Error("Unable to get short URL please try again later");
+  }
+
+  return data;
+};
+
+export const getUrl = async ({ id, user_id }) => {
+  const { data, error } = await supabase
+    .from("urls")
+    .select("*")
+    .eq("id", id)
+    .eq("user_id", user_id)
+    .single();
+
+  if (error) {
+    console.error(error.message);
+    throw new Error("The Short URL not found.");
+  }
+
+  return data;
+};
+
 export const deleteUrl = async (id) => {
   const { data, error } = await supabase.from("urls").delete().eq("id", id);
 
