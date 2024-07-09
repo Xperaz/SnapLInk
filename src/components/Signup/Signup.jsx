@@ -34,7 +34,6 @@ const Signup = () => {
 
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
-    // console.log(files[0]);
     setFormData((prev) => ({ ...prev, [name]: files ? files[0] : value }));
   };
 
@@ -47,7 +46,7 @@ const Signup = () => {
         password: string()
           .min(6, "Password must be at least 6 characters")
           .required(),
-        profile_pic: mixed().required("File is required"),
+        profile_pic: mixed().required("Profile picture is required"),
       });
 
       await schema.validate(formData, { abortEarly: false });
