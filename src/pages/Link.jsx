@@ -3,7 +3,7 @@ import { getClicksForUrl } from "@/db/clicksApi";
 import { getUrl } from "@/db/urlsApi";
 import useFetch from "@/hooks/useFetch";
 import { LinkIcon } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { BarLoader } from "react-spinners";
 import { Button } from "@/components/ui/button";
@@ -13,11 +13,24 @@ import { deleteUrl } from "@/db/urlsApi";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Location from "@/components/Link/Location";
 import DeviceStats from "@/components/Link/DeviceStats";
+import { downloadImage } from "@/helpers/downloadImage";
 
 const Link = () => {
   const { id } = useParams();
   const { user } = UserState();
   const navigate = useNavigate();
+  const [isLinkCopied, setIsLinkCopied] = useState(false);
+
+  useEffect(() => {
+    let timeoutId;
+    if (isLinkCopied) {
+      timeoutId = setTimeout(() => {
+        setIsLinkCopied(false);
+      }, 1000);
+    }
+
+    return () => clearTimeout(timeoutId);
+  }, [isLinkCopied]);
 
   const {
     data: urlData,
@@ -44,19 +57,6 @@ const Link = () => {
     }
   }, []);
 
-  const downloadImage = () => {
-    const imageUrl = urlData?.qr;
-    const fileName = urlData?.title;
-
-    const anchor = document.createElement("a");
-    anchor.href = imageUrl;
-    anchor.download = fileName;
-
-    document.body.appendChild(anchor);
-    anchor.click();
-    document.body.removeChild(anchor);
-  };
-
   const { isLoading: isLoadingDelete, fn: deleteUrlFn } = useFetch(
     deleteUrl,
     urlData?.id
@@ -78,7 +78,7 @@ const Link = () => {
             {urlData?.title}
           </span>
           <a
-            className="text-3xl sm:text-4xl text-blue-400 font-bold hover:underline cursor-pointer"
+            className="text-2xl xl:text-4xl text-blue-400 font-bold hover:underline cursor-pointer w-full truncate"
             href={`${import.meta.env.VITE_SHORTER_URL_BASE}${link}`}
             target="_blank"
           >{`${import.meta.env.VITE_SHORTER_URL_BASE}${link}`}</a>
@@ -95,20 +95,31 @@ const Link = () => {
             {new Date(urlData?.created_at).toLocaleString()}
           </span>
 
-          <div className="flex gap-2">
+          <div className="flex gap-2 relative">
+            {isLinkCopied && (
+              <p className="text-green-400 absolute -top-8">Copied!</p>
+            )}
             <Button
               variant="ghost"
               onClick={() => {
-                navigator.clipboard.writeText(
-                  `${import.meta.import.meta.env.VITE_SHORTER_URL_BASE}/${
-                    urlData?.short_url
-                  }`
-                );
+                try {
+                  navigator.clipboard.writeText(
+                    `${import.meta.env.VITE_SHORTER_URL_BASE}${
+                      urlData?.short_url
+                    }`
+                  );
+                  setIsLinkCopied(true);
+                } catch (error) {
+                  console.error("unable to copy the link: ", error);
+                }
               }}
             >
               <Copy />
             </Button>
-            <Button variant="ghost" onClick={downloadImage}>
+            <Button
+              variant="ghost"
+              onClick={() => downloadImage(urlData?.qr, urlData?.title)}
+            >
               <Download />
             </Button>
             <Button variant="ghost" onClick={() => deleteUrlFn()}>

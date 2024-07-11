@@ -4,26 +4,27 @@ import { Copy, Download, Trash } from "lucide-react";
 import useFetch from "@/hooks/useFetch";
 import { deleteUrl } from "@/db/urlsApi";
 import { BeatLoader } from "react-spinners";
+import { downloadImage } from "@/helpers/downloadImage";
+import { useEffect, useState } from "react";
 
 /* eslint-disable react/prop-types */
 const LinkCard = ({ url, fetchUrls }) => {
-  const downloadImage = () => {
-    const imageUrl = url?.qr;
-    const fileName = url?.title;
-
-    const anchor = document.createElement("a");
-    anchor.href = imageUrl;
-    anchor.download = fileName;
-
-    document.body.appendChild(anchor);
-    anchor.click();
-    document.body.removeChild(anchor);
-  };
-
+  const [isLinkCopied, setIsLinkCopied] = useState(false);
   const { isLoading: isLoadingDelete, fn: deleteUrlFn } = useFetch(
     deleteUrl,
     url?.id
   );
+
+  useEffect(() => {
+    let timeoutId;
+    if (isLinkCopied) {
+      timeoutId = setTimeout(() => {
+        setIsLinkCopied(false);
+      }, 1000);
+    }
+
+    return () => clearTimeout(timeoutId);
+  }, [isLinkCopied]);
 
   return (
     <div className="flex flex-col md:flex-row gap-5 border p-4 bg-gray-900 rounded-lg">
@@ -50,15 +51,26 @@ const LinkCard = ({ url, fetchUrls }) => {
       </Link>
 
       <div className="flex gap-2">
+        {isLinkCopied && <p className="text-green-400 mb-4">Copied!</p>}
         <Button
           variant="ghost"
           onClick={() => {
-            navigator.clipboard.writeText(`{}${url?.short_url}`);
+            try {
+              navigator.clipboard.writeText(
+                `${import.meta.env.VITE_SHORTER_URL_BASE}${url?.short_url}`
+              );
+              setIsLinkCopied(true);
+            } catch (error) {
+              console.error("unable to copy the link: ", error);
+            }
           }}
         >
           <Copy />
         </Button>
-        <Button variant="ghost" onClick={downloadImage}>
+        <Button
+          variant="ghost"
+          onClick={() => downloadImage(url?.qr, url?.title)}
+        >
           <Download />
         </Button>
         <Button
