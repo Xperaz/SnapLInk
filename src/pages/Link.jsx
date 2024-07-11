@@ -137,7 +137,7 @@ const Link = () => {
           />
         </div>
 
-        <Card className="w-3/5">
+        <Card className="w-2/5">
           <CardHeader>
             <CardTitle className="text-4xl font-extrabold">Stats</CardTitle>
           </CardHeader>

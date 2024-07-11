@@ -56,18 +56,17 @@ const Header = () => {
                     <span>My Links</span>
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="text-red-400">
+                <DropdownMenuItem
+                  className="text-red-400 cursor-pointer"
+                  onClick={() => {
+                    logoutFn().then(() => {
+                      fetchUser();
+                      navigate("/");
+                    });
+                  }}
+                >
                   <LogOut className="mr-2 h-4 w-4" />
-                  <span
-                    onClick={() => {
-                      logoutFn().then(() => {
-                        fetchUser();
-                        navigate("/");
-                      });
-                    }}
-                  >
-                    Logout
-                  </span>
+                  <span>Logout</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

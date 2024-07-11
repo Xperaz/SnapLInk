@@ -117,7 +117,7 @@ const CreateLink = () => {
         {errors.longUrl && <Error message={errors.longUrl} />}
 
         <div className="flex items-center gap-2">
-          <Card className="p-2">snaplink.in</Card> /
+          <Card className="p-2">{import.meta.env.VITE_SHORTER_URL_BASE}</Card> /
           <Input
             id="customUrl"
             placeholder="Enter your Custom URL (Optional)"
