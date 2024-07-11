@@ -70,14 +70,11 @@ const CreateLink = () => {
       const newErrors = {};
 
       errs?.inner?.forEach((err) => {
-        console.log(err.message);
         newErrors[err.path] = err.message;
       });
       setErrors(newErrors);
     }
   };
-
-  console.log(errors);
 
   return (
     <Dialog

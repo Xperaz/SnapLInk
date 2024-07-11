@@ -40,7 +40,9 @@ const Header = () => {
                     src={user?.user_metadata?.profile_pic}
                     className="object-contain"
                   />
-                  <AvatarFallback>CN</AvatarFallback>
+                  <AvatarFallback>
+                    {user?.user_metadata?.name?.substring(0, 2)}
+                  </AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
               <DropdownMenuContent>

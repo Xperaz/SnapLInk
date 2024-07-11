@@ -7,6 +7,7 @@ import Link from "./pages/Link";
 import RedirectLink from "./pages/RedirectLink";
 import UserProvider from "./context/userContext";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import { Analytics } from "@vercel/analytics/react";
 
 const router = createBrowserRouter([
   {
@@ -45,9 +46,12 @@ const router = createBrowserRouter([
 ]);
 const App = () => {
   return (
-    <UserProvider>
-      <RouterProvider router={router} />
-    </UserProvider>
+    <>
+      <UserProvider>
+        <RouterProvider router={router} />
+      </UserProvider>
+      <Analytics />
+    </>
   );
 };
 
