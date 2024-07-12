@@ -77,7 +77,7 @@ const Signup = () => {
         <CardDescription>
           Create new account if you haven&apos;t already
         </CardDescription>
-        {error && <Error message={error} />}
+        {error && <Error message={error.message} />}
       </CardHeader>
       <CardContent className="space-y-2">
         <div>

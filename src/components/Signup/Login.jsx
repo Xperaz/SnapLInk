@@ -73,7 +73,7 @@ const Login = () => {
         <CardDescription>
           To your account if you already have one
         </CardDescription>
-        {error && <Error message={error} />}
+        {error && <Error message={error.message} />}
       </CardHeader>
       <CardContent className="space-y-2">
         <div>
